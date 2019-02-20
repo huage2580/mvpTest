@@ -1,5 +1,6 @@
 package com.hua.mvptest.base;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -27,7 +28,14 @@ public abstract class BaseViewFragment<T extends BaseViewModel,B extends ViewDat
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,layoutId() ,container,false);
         linkViewModel(viewModel);
+        viewModel.setView(this);
         return binding.getRoot();
+    }
+
+    @Nullable
+    @Override
+    public Context getXContext() {
+        return getActivity();
     }
 
     @Override
@@ -43,6 +51,22 @@ public abstract class BaseViewFragment<T extends BaseViewModel,B extends ViewDat
         super.onResume();
         if (viewModel!=null){
             viewModel.onResume();
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            //相当于Fragment的onResume
+            if (viewModel!=null){
+                viewModel.onResume();
+            }
+        } else {
+            //相当于Fragment的onPause
+            if (viewModel!=null){
+                viewModel.onPause();
+            }
         }
     }
 

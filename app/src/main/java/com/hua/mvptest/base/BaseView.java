@@ -1,5 +1,7 @@
 package com.hua.mvptest.base;
 
+import android.content.Context;
+
 /**
  * BaseView.java
  *
@@ -10,5 +12,7 @@ package com.hua.mvptest.base;
 public interface BaseView<T> {
 
     void linkViewModel(T viewModel);
+
+    Context getXContext();
 
 }

@@ -1,5 +1,6 @@
 package com.hua.mvptest.base;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -25,7 +26,13 @@ public abstract class BaseViewActivity<T extends BaseViewModel,B extends ViewDat
         }
         binding = DataBindingUtil.setContentView(this, layoutId());
         linkViewModel(viewModel);
+        viewModel.setView(this);
         viewModel.onCreate();
+    }
+
+    @Override
+    public Context getXContext() {
+        return this;
     }
 
     @Override

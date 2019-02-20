@@ -8,6 +8,7 @@ package com.hua.mvptest.base;
  */
 
 public interface BaseViewModel {
+    void setView(BaseView view);
     void onCreate();
     void onResume();
     void onPause();

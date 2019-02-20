@@ -1,6 +1,11 @@
 package com.hua.mvptest.base;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
+
+import com.hua.mvptest.aop.ContextAble;
+
+import java.lang.ref.WeakReference;
 
 /**
  * ViewModel.java
@@ -9,7 +14,13 @@ import android.databinding.BaseObservable;
  * @date 2018/9/21
  */
 
-public class ViewModel extends BaseObservable implements BaseViewModel {
+public class ViewModel extends BaseObservable implements BaseViewModel, ContextAble {
+    public WeakReference<BaseView> viewWeakReference;
+    @Override
+    public void setView(BaseView view) {
+        viewWeakReference = new WeakReference<>(view);
+    }
+
     @Override
     public void onCreate() {
 
@@ -28,5 +39,13 @@ public class ViewModel extends BaseObservable implements BaseViewModel {
     @Override
     public void onDestroy() {
 
+    }
+
+    @Override
+    public Context getContext() {
+        if (viewWeakReference!=null && viewWeakReference.get()!=null){
+            return viewWeakReference.get().getXContext();
+        }
+        return null;
     }
 }
